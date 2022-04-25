@@ -18,6 +18,7 @@ export class CovidComponent implements OnInit {
   private isoUpdater = new BehaviorSubject(null);
   countryISO: any;
   // map
+  map: L.Map | undefined;
   iconUrl = "https://decisionfarm.ca/assets/images/marker-icon-2x.png";
   options = {
     layers: [
@@ -50,7 +51,12 @@ export class CovidComponent implements OnInit {
     )
 
     this.listLastestByCountry = combineLatest([this.isoUpdater]).pipe(
-      switchMap(([iso]) => this.covidService.listCovidbyCountryLastest(iso || 'VN'))
+      switchMap(([iso]) => this.covidService.listCovidbyCountryLastest(iso || 'VN')),
+      tap(res => {
+        console.log(res);
+        // @ts-ignore
+        this.map.panTo(new L.LatLng(40.737, -73.923));
+      })
     );
 
     this.listCovidbyCountry = combineLatest([this.isoUpdater]).pipe(
@@ -102,4 +108,9 @@ export class CovidComponent implements OnInit {
   changeCountry() {
     this.isoUpdater.next(this.countryISO);
   }
+
+  onMapReady(map: L.Map) {
+    this.map = map;
+  }
+
 }

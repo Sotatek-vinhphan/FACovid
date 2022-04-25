@@ -22,7 +22,7 @@
       <div class="title-combobox">Country & region</div>
       <div *ngIf="listCountry | async as country">
         <select class="combobox" [(ngModel)]="countryISO" (change)="changeCountry()" style="width: 200px;">
-          <option *ngFor="let c of country" [value]="c.Iso2" >{{c.name}}</option>
+          <option *ngFor="let c of country" [value]="c.Iso2">{{c.name}}</option>
         </select>
       </div>
 
@@ -56,7 +56,8 @@
         [gradient]="gradient"
         [xAxis]="showXAxis"
         [xAxisLabel]="xAxisLabel"
-        [yAxis]="showYAxis">
+        [yAxis]="showYAxis"
+        [animations]="false">
       </ngx-charts-line-chart>
     </div>
   </div>
@@ -76,7 +77,8 @@
       {{label}}
     </div>
     <div class="bottom-element">
-      {{bottomText}} <ng-container *ngIf="percent">%</ng-container>
+      {{bottomText}}
+      <ng-container *ngIf="percent">%</ng-container>
     </div>
   </div>
 </ng-template>
