@@ -18,8 +18,19 @@ export class CovidComponent implements OnInit {
   private isoUpdater = new BehaviorSubject(null);
   countryISO: any;
   // map
-  map: L.Map | undefined;
+  map: L.Map | any;
+  markers: L.Layer[] = [];
   iconUrl = "https://decisionfarm.ca/assets/images/marker-icon-2x.png";
+  markerIcon = {
+    icon: L.icon({
+      iconSize: [25, 41],
+      iconAnchor: [10, 41],
+      popupAnchor: [2, -40],
+      // specify the path here
+      iconUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-icon.png",
+      shadowUrl: "https://unpkg.com/leaflet@1.4.0/dist/images/marker-shadow.png"
+    })
+  };
   options = {
     layers: [
       tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom: 18, attribution: '...'})
@@ -53,9 +64,10 @@ export class CovidComponent implements OnInit {
     this.listLastestByCountry = combineLatest([this.isoUpdater]).pipe(
       switchMap(([iso]) => this.covidService.listCovidbyCountryLastest(iso || 'VN')),
       tap(res => {
-        console.log(res);
-        // @ts-ignore
-        this.map.panTo(new L.LatLng(40.737, -73.923));
+        this.map.panTo(new L.LatLng((res as any)[0].location.lat, (res as any)[0].location.lng));
+        const newMarker = L.marker([(res as any)[0].location.lat, (res as any)[0].location.lng], this.markerIcon);
+        this.markers.push(newMarker);
+        newMarker.addTo(this.map);
       })
     );
 

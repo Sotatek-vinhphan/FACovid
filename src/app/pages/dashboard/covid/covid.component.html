@@ -45,6 +45,7 @@
   <div class="d-flex pt-4">
     <div style="height: 300px; width: 55%; margin-right: 1%"
          leaflet
+         (leafletMapReady)="onMapReady($event)"
          [leafletOptions]="options"
     >
     </div>
