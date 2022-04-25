@@ -73,7 +73,7 @@ export class CovidComponent implements OnInit {
 
     this.listCovidbyCountry = combineLatest([this.isoUpdater]).pipe(
       switchMap(([iso]) => this.covidService.listCovidbyCountry(iso || 'VN')),
-      map(res => (res as any)[0].timeseries),
+      map(res => (res as any)[0]?.timeseries),
       map(key => {
         const k = Object.keys(key);
         let list = [];
