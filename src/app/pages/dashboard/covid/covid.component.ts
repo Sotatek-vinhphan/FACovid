@@ -65,7 +65,7 @@ export class CovidComponent implements OnInit {
       switchMap(([iso]) => this.covidService.listCovidbyCountryLastest(iso || 'VN')),
       tap(res => {
         this.map.panTo(new L.LatLng((res as any)[0]?.location.lat, (res as any)[0]?.location.lng));
-        const newMarker = L.marker([(res as any)[0]?.location.lat, (res as any)[0]?.location.lng], this.markerIcon);
+        const newMarker = L.marker([(res as any)[0]?.location?.lat, (res as any)[0]?.location?.lng], this.markerIcon);
         this.markers.push(newMarker);
         newMarker.addTo(this.map);
       })
